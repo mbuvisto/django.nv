@@ -17,8 +17,21 @@ jobs:
     steps:
       - run: echo "This is a test step"
 
+  artifact:
+    needs: test 
+    runs-on: ubuntu-latest
+    steps:
+      - shell: bash
+        run: |
+          echo "hello" > hello.txt
+      - name: Upload hello.txt artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: hello artifact
+          path: hello.txt
+      
   integration:
-    needs: test
+    needs: artifact
     runs-on: ubuntu-latest 
     steps:
       - run: echo "This is an integration step"
